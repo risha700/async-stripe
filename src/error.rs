@@ -135,6 +135,7 @@ pub enum ErrorCode {
     ResourceAlreadyExists,
     ResourceMissing,
     RoutingNumberInvalid,
+    SubscriptionPaymentIntentRequiresAction,
     SecretKeyRequired,
     SepaUnsupportedAccount,
     ShippingCalculationFailed,
