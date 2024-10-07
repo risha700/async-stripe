@@ -62,6 +62,18 @@ impl Client {
     }
 
     /// Set the request strategy for the client.
+    ///
+    /// Note: the client is cheap to clone so if you require a new client
+    ///       temporarily with a new strategy you can simply clone it
+    ///       and keep going.
+    ///
+    /// ```no_run
+    /// use stripe::RequestStrategy;
+    /// let client = stripe::Client::new("sk_test_123");
+    /// let idempotent_client = client
+    ///     .clone()
+    ///     .with_strategy(RequestStrategy::Idempotent("my-key".to_string()));
+    /// ```
     pub fn with_strategy(mut self, strategy: RequestStrategy) -> Self {
         self.strategy = strategy;
         self
@@ -179,7 +191,7 @@ impl Client {
 
     fn create_request(&self, method: Method, url: Url) -> Request {
         let mut req = Request::new(method, url);
-        req.insert_header("authorization", &format!("Bearer {}", self.secret_key));
+        req.insert_header("authorization", format!("Bearer {}", self.secret_key));
 
         for (key, value) in self.headers.to_array().iter().filter_map(|(k, v)| v.map(|v| (*k, v))) {
             req.insert_header(key, value);
