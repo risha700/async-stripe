@@ -9,6 +9,23 @@ the entire API surface. Not the case? Please open an issue. We update our
 definitions [every week](https://github.com/arlyon/async-stripe/actions/workflows/openapi.yml) to ensure that we are up to date.
 Want to see a changelog of the Stripe API? [Look no further](https://stripe.com/docs/changelog).
 
+> **Note**
+>
+> We are currently working on a major rewrite of the library in the `next` branch. This rewrite aims to make the library more efficient and easier to use. Some lovely numbers from the rewrite:
+>
+> - A clean release build of `examples/endpoints` goes from ~4m to 50s with `min-ser` enabled.
+> - The actual time to build just the binary goes from 75s to 7s, making incremental builds for code depending on async-stripe much faster.
+> - Stripped binary size of the `examples/endpoints` binary went from ~70MB to ~20MB, with further reduction to ~13MB using a fat LTO build.
+>
+> We are actively seeking testers to help us ensure the new version is stable and performant. If you are interested in trying out the new version, you can add the following to your `Cargo.toml`:
+>
+> ```toml
+> [dependencies]
+> async-stripe = { git = "https://github.com/arlyon/async-stripe", branch = "next" }
+> ```
+>
+> Your feedback is invaluable to us, so please report any issues or suggestions you may have. We are still expecting a few breaking changes before RC.
+
 ## Documentation
 
 See the [Rust API docs](https://docs.rs/async-stripe), the [examples](/examples), or [payments.rs](https://payments.rs).
@@ -61,7 +78,7 @@ If you don't see the specific version you are on, prefer the next available vers
 
 ## MSRV
 
-We currently have `1.74.0` pinned in CI, so any version of rustc newer than that should work.
+We currently have `1.78.0` pinned in CI, so any version of rustc newer than that should work.
 If this is not the case, please open an issue. As a policy, we permit MSRV increases in non-breaking releases.
 If you have a compelling usecase for bumping it, we are usually open to do so, as long as
 the rust version is not too new (generally 3 releases).
