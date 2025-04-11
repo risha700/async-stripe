@@ -304,6 +304,10 @@ pub enum EventType {
     RecipientDeleted,
     #[serde(rename = "recipient.updated")]
     RecipientUpdated,
+    #[serde(rename = "refund.created")]
+    RefundCreated,
+    #[serde(rename = "refund.updated")]
+    RefundUpdated,
     #[serde(rename = "reporting.report_run.failed")]
     ReportingReportRunFailed,
     #[serde(rename = "reporting.report_run.succeeded")]
@@ -405,7 +409,7 @@ pub enum EventType {
 
 impl std::fmt::Display for EventType {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str(&serde_json::to_string(self).expect("serializing EventType should not fail"))
+        self.serialize(f)
     }
 }
 
@@ -586,6 +590,18 @@ impl<'r> Signature<'r> {
 
 #[cfg(test)]
 mod tests {
+    #[cfg(feature = "webhook-events")]
+    #[test]
+    fn test_event_type_display() {
+        use super::EventType;
+
+        // Can catch issues like quotes being added to the string
+        assert_eq!(
+            EventType::CustomerSubscriptionCreated.to_string(),
+            "customer.subscription.created"
+        );
+    }
+
     #[cfg(feature = "webhook-events")]
     #[test]
     fn test_signature_parse() {
