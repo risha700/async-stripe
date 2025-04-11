@@ -136,6 +136,7 @@ pub enum ErrorCode {
     ResourceMissing,
     RoutingNumberInvalid,
     SubscriptionPaymentIntentRequiresAction,
+    InvoicePaymentIntentRequiresAction,
     SecretKeyRequired,
     SepaUnsupportedAccount,
     ShippingCalculationFailed,
